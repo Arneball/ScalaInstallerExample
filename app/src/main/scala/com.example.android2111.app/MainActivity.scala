@@ -24,8 +24,9 @@ object Implicits {
   implicit class ViewWrapper(val v: View) extends AnyVal {
     def gtTxt(id: Int) = v.findViewById(id).asInstanceOf[TextView]
     def fid(id: Int) = v.findViewById(id)
-    def setCl(f: => Unit) = v.setOnClickListener(new OnClickListener {
-      override def onClick(v: View) = f
+    def setCl(f: => Unit) = setClick((v) => f)
+    def setClick(f: View => Unit) = v.setOnClickListener(new OnClickListener {
+      override def onClick(v: View) = f(v)
     })
   }
   implicit class StringW(val str: String) extends AnyVal {

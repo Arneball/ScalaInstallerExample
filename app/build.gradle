@@ -40,6 +40,6 @@ android {
 }
 
 dependencies {
-    compile 'org.scala-lang:scala-library:2.11.1'
+    provided 'org.scala-lang:scala-library:2.11.1'
     compile 'com.android.support:appcompat-v7:19.+'
 }
