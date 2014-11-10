@@ -14,24 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text"
-            android:text="@string/hello_world"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <Button
-            android:id="@+id/button"
-            android:text="Test asynctask"
+            android:text="ListView"
+            android:id="@+id/button_list_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/kill"
-            android:onClick="kill"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kill tdp" />
 
     </LinearLayout>
 </ScrollView>

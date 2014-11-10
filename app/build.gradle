@@ -72,6 +72,8 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:19.1.+'
+//    compile 'org.scala-lang:scala-reflect:2.11.4'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
     releaseCompile "org.scala-lang:scala-library:2.11.4"
     debugProvided "org.scala-lang:scala-library:2.11.4"
 }
