@@ -1,2 +1,19 @@
 #
 -dontwarn **
+-keep public class com.example.android2111.app.model.** {
+    *;
+}
+
+-keepattributes *Annotation*,EnclosingMethod
+
+# OrmLite uses reflection
+-keep class com.j256.**
+-keepclassmembers class com.j256.** { *; }
+-keep enum com.j256.**
+-keepclassmembers enum com.j256.** { *; }
+-keep interface com.j256.**
+-keepclassmembers interface com.j256.** { *; }
+
+-keep class scala.collection.SeqLike {
+    public protected *;
+}

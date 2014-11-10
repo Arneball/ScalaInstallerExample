@@ -1,6 +1,7 @@
 package com.example.android2111.app
 
 import android.database.sqlite.SQLiteDatabase
+import com.example.android2111.app.model.User
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper
 import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.field.DatabaseField
@@ -22,14 +23,4 @@ object DbAdapter extends OrmLiteSqliteOpenHelper(App.instance, "db", null, 1) {
   def getDao[T : ClassTag]: Dao[T, Int] = getDao(implicitly[ClassTag[T]].runtimeClass)
 
   override def onUpgrade(database: Db, connectionSource: ConnectionSource, oldVersion: Int, newVersion: Int): Unit = ???
-}
-
-@DatabaseTable class User(pname: String, page: Int) extends WithId { // https://issues.scala-lang.org/browse/SI-8975
-  @DatabaseField val name = pname
-  @DatabaseField val age = page
-  private def this() = this(null, -1)
-}
-
-trait WithId {
-  @DatabaseField(generatedId = true) private var id: Int = _
 }

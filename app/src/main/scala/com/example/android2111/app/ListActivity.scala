@@ -2,11 +2,13 @@ package com.example.android2111.app
 
 import android.content.Context
 import android.os.Bundle
-import android.view.{LayoutInflater, ViewGroup, View}
-import android.widget.{TextView, ListView, SimpleAdapter, BaseAdapter}
-import com.j256.ormlite.dao.Dao
-import collection.JavaConversions._
-import Implicits._
+import android.view.{LayoutInflater, View, ViewGroup}
+import android.widget.{BaseAdapter, ListView, TextView}
+import com.example.android2111.app.Implicits._
+import com.example.android2111.app.model.User
+
+import scala.collection.JavaConversions._
+
 class ListActivity extends ActivityExtras {
   lazy val ageField = this.gtTxt(R.id.age)
   lazy val nameField = this.gtTxt(R.id.name)
@@ -18,25 +20,23 @@ class ListActivity extends ActivityExtras {
     super.onCreate(b)
     setContentView(R.layout.activity_list)
 
-
     button.setCl{
-      ageField -> nameField match {
-        case (EmptyText(), _) => toast("Age must not be empty")
-        case (_, EmptyText()) => toast("Name must not be empty")
-        case (age, name) =>
-          dao.create(new User(page = age.getRealText.toInt, pname = name.getRealText)) match {
-            case 1 =>
-              toast("Success")
-              initList()
-            case _ => toast("Failed to add user")
-          }
+      List(ageField -> "Age", nameField -> "Name").collectFirst{
+        case (EmptyText(), label) => toast(s"$label must not be empty")
+      }.getOrElse{
+        dao.create(new User(page = ageField.getRealText.toInt, pname = nameField.getRealText)) match {
+          case 1 =>
+            toast("Success")
+            initList()
+          case _ => toast("Failed to add user")
+        }
       }
     }
 
     initList()
   }
 
-  def initList() = {
+  private def initList() = {
     val items = dao.queryForAll().toIndexedSeq
 
     list.setAdapter(new MyAdapter(this, items, R.layout.list_child) {
