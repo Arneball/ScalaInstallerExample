@@ -23,7 +23,9 @@ object DbAdapter extends OrmLiteSqliteOpenHelper(App.instance, "db", null, 1) {
 
   def getDao[T <: WithId : ClassTag]: Dao[T, Int] = getDao(implicitly[ClassTag[T]].runtimeClass)
 
-  implicit def dao2cursor[T <: WithId : ClassTag] = getDao[User].iterator().getRawResults.asInstanceOf[AndroidDatabaseResults].getRawCursor
+  implicit def dao2cursor[T <: WithId : ClassTag] = {
+    getDao[User].iterator.getRawResults.asInstanceOf[AndroidDatabaseResults].getRawCursor
+  }
 
   override def onUpgrade(database: Db, connectionSource: ConnectionSource, oldVersion: Int, newVersion: Int): Unit = ???
 }
