@@ -2,6 +2,7 @@ package com.example.android2111.app
 
 import android.app.Activity
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
@@ -50,4 +51,6 @@ object Implicits {
   implicit class EditTextW(val e: TextView) extends AnyVal {
     def getRealText = e.getText.toString
   }
+
+  implicit def str2column(name: String)(implicit cursor: Cursor): Int = cursor.getColumnIndex(name)
 }
