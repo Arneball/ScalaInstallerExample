@@ -22,7 +22,9 @@ trait ActivityExtras extends Activity {
   private def toastImpl(str: String) = Toast.makeText(this, str, Toast.LENGTH_LONG).show()
   def toast(resid: Int) = toastImpl(getString(resid))
   def toast(string: String) = toastImpl(string)
-
+  def ui(f: => Unit) = runOnUiThread(new Runnable{
+    def run = f
+  })
 }
 
 class MainActivity extends Activity with ActivityExtras {
@@ -33,6 +35,9 @@ class MainActivity extends Activity with ActivityExtras {
     toast(toastMessage)
     this.fid(R.id.button_list_activity).setCl{
       startActivity[ListActivity]
+    }
+    this.fid(R.id.button_actor_activity).setCl {
+      startActivity[ActorActivity]
     }
   }
 }

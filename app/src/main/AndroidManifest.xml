@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ListActivity" />
+        <activity android:name=".ActorActivity" />
     </application>
 
 </manifest>
