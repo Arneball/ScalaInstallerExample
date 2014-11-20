@@ -11,6 +11,7 @@ class App extends MultiDexApplication {
   override def onCreate = {
     super.onCreate
     App.instance = this
+    App.as = ActorSystem("kalle")
   }
 
   override def attachBaseContext(ctx: Context) = {
@@ -20,6 +21,7 @@ class App extends MultiDexApplication {
 }
 
 object App {
-  val as = ActorSystem("daSystem")
+  var as: ActorSystem = _
+
   var instance: App = _
 }

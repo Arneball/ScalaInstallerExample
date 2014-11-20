@@ -9,9 +9,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <uses-library android:name="s1" />
-        <uses-library android:name="s2" />
-        <uses-library android:name="s3" />
+        <!--<uses-library android:name="s1" />-->
+        <!--<uses-library android:name="s2" />-->
+        <!--<uses-library android:name="s3" />-->
     </application>
 
 </manifest>
