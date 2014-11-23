@@ -20,7 +20,7 @@ class ActorActivity extends ActivityExtras {
   lazy val actor = App.system.actorOf(Props.apply(classOf[PongActor]))
   lazy val pingButton = this.fid(R.id.button1)
   lazy val reqButton = this.fid(R.id.button2)
-
+  private var pongCount = 0
   override def onCreate(b: Bundle) = {
     super.onCreate(b)
     setContentView(R.layout.activity_actor)

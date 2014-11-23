@@ -1,16 +1,12 @@
 package com.example.android2111.app
 
-import android.content.Context
-import android.database.Cursor
 import android.os.Bundle
-import android.view.{LayoutInflater, View, ViewGroup}
-import android.widget.{CursorAdapter, BaseAdapter, ListView, TextView}
+import android.text.TextUtils
+import android.view.View
+import android.widget.{ListView, TextView}
 import com.example.android2111.app.Implicits._
 import com.example.android2111.app.model.User
 import com.example.android2111.app.util.MyCursorAdapter
-import com.j256.ormlite.dao.Dao
-
-import scala.collection.JavaConversions._
 
 class ListActivity extends ActivityExtras {
   lazy val ageField = this.gtTxt(R.id.age)
@@ -36,23 +32,18 @@ class ListActivity extends ActivityExtras {
       List(ageField -> "Age", nameField -> "Name").collectFirst{
         case (EmptyText(), label) => toast(s"$label must not be empty")
       }.getOrElse{
-        dao.create(new User(page = ageField.getRealText.toInt, pname = nameField.getRealText)) match {
+        dao.create(new User(page = ageField.text.toInt, pname = nameField.text)) match {
           case 1 =>
             toast("Success")
             adapter.swapCursor(newCursor)
           case _ => toast("Failed to add user")
         }
       }
-    }
-
+    } // end setCl
     list.setAdapter(adapter)
   }
-
 }
 
 object EmptyText {
-  def unapply(e: TextView) = e.getText.toString match {
-    case null | "" => true
-    case _         => false
-  }
+  def unapply(e: TextView) = TextUtils.isEmpty(e.text)
 }

@@ -17,8 +17,8 @@ package object app {
       def tag[T] = v.getTag.asInstanceOf[T]
     }
 
-    implicit class EditTextW(val e: TextView) extends AnyVal {
-      def getRealText = e.getText.toString
+    implicit class TextViewW(val e: TextView) extends AnyVal {
+      def text = e.getText.toString
     }
 
     implicit def str2column(name: String)(implicit cursor: Cursor): Int = cursor.getColumnIndex(name)
