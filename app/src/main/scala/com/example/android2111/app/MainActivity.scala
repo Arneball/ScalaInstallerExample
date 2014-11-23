@@ -18,7 +18,9 @@ trait ActivityExtras extends Activity {
   def startActivity[T <: Activity : ClassTag]: Unit = startActivity(new Intent(this, implicitly[ClassTag[T]].runtimeClass))
 
   implicit def activity2view(a: Activity): ViewWrapper = a.getWindow.getDecorView
-
+  def ui(fun: =>Unit) = runOnUiThread(new Runnable {
+    def run = fun
+  })
   private def toastImpl(str: String) = Toast.makeText(this, str, Toast.LENGTH_LONG).show()
   def toast(resid: Int) = toastImpl(getString(resid))
   def toast(string: String) = toastImpl(string)
@@ -29,10 +31,11 @@ class MainActivity extends Activity with ActivityExtras {
   override def onCreate(b: Bundle) = {
     super.onCreate(b)
     setContentView(R.layout.activity_main)
-    val toastMessage = 1 to 10 mkString ", "
-    toast(toastMessage)
     this.fid(R.id.button_list_activity).setCl{
       startActivity[ListActivity]
+    }
+    this.fid(R.id.button_actor_activity).setCl{
+      startActivity[ActorActivity]
     }
   }
 }

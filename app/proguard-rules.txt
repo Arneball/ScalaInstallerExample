@@ -3,8 +3,9 @@
 -keep public class com.example.android2111.app.model.** {
     *;
 }
-
--keepattributes *Annotation*,EnclosingMethod
+#-dontobfuscate
+-keepattributes SourceFile,LineNumberTable
+-keepattributes *Annotation*,EnclosingMethod,Signature
 
 # OrmLite uses reflection
 -keep class com.j256.**
@@ -17,3 +18,61 @@
 -keep class scala.collection.SeqLike {
     public protected *;
 }
+
+-keep class com.typesafe.**
+-keep class scala.collection.immutable.StringLike {
+    *;
+}
+-keepclasseswithmembers class * {
+    public <init>(java.lang.String, akka.actor.ActorSystem$Settings, akka.event.EventStream, akka.actor.Scheduler, akka.actor.DynamicAccess);
+}
+-keep class * {
+    public <init>(com.typesafe.config.Config, akka.event.LoggingAdapter, java.util.concurrent.ThreadFactory);
+    public <init>(java.lang.String, akka.actor.ActorSystem$Settings, akka.event.EventStream, akka.actor.DynamicAccess);
+}
+-keep class * extends akka.actor.Actor {
+    public <init>(...);
+}
+-keepclassmembers class * {
+    public <init>(akka.actor.ActorSystem$Settings, com.typesafe.config.Config);
+}
+-keepclasseswithmembers class * {
+    public <init>(akka.actor.ExtendedActorSystem);
+}
+-keepclassmembers class scala.concurrent.forkjoin.ForkJoinTask {
+    <fields>;
+}
+-keepclassmembernames class scala.concurrent.forkjoin.ForkJoinPool {
+    long eventCount;
+    int  workerCounts;
+    int  runControl;
+    int  qlock;
+    scala.concurrent.forkjoin.ForkJoinPool$WaitQueueNode syncStack;
+    scala.concurrent.forkjoin.ForkJoinPool$WaitQueueNode spareStack;
+}
+-keepclassmembernames class scala.concurrent.forkjoin.ForkJoinPool$WorkQueue {
+    *;
+}
+
+-keepclassmembernames class scala.concurrent.forkjoin.ForkJoinWorkerThread {
+    int base;
+    int sp;
+    int runState;
+}
+
+-keepclassmembernames class scala.concurrent.forkjoin.ForkJoinTask {
+    int status;
+}
+-keepclassmembernames class scala.concurrent.forkjoin.LinkedTransferQueue {
+    scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference head;
+    scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference tail;
+    scala.concurrent.forkjoin.LinkedTransferQueue$PaddedAtomicReference cleanMe;
+}
+-keep class akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinPool {
+    *;
+}
+-keep class akka.dispatch.ForkJoinExecutorConfigurator {
+    *;
+}
+
+-keep class sun.misc.Unsafe { *; }
