@@ -5,7 +5,7 @@ import akka.util.Timeout
 import android.os.Bundle
 import com.android.volley.Request.Method
 import com.android.volley._
-import com.android.volley.toolbox.{HttpHeaderParser, RequestFuture}
+import com.android.volley.toolbox.HttpHeaderParser
 import com.example.android2111.app.Implicits._
 import com.example.android2111.app.model.CurrentTime
 import com.google.gson.Gson
@@ -16,8 +16,8 @@ import scala.concurrent.{Future, Promise}
 import scala.reflect.ClassTag
 
 class ActorActivity extends ActivityExtras {
-  implicit val timeout: Timeout = 10 seconds
-  lazy val actor = App.system.actorOf(Props.apply(classOf[PongActor], "Bajskorv"))
+  implicit val timeout: Timeout = 10.seconds
+  lazy val actor = App.system.actorOf(Props.apply(classOf[PongActor]))
   lazy val pingButton = this.fid(R.id.button1)
   lazy val reqButton = this.fid(R.id.button2)
 
@@ -43,7 +43,7 @@ class PongActor(name: String) extends Actor with VolleyActor {
   def receive = {
     case "ping" => sender ! "pong"
     case Url(datUrl) =>
-      val s = sender
+      val s = sender()
       request[CurrentTime](url = datUrl).foreach{ s ! _ }
   }
 }
@@ -52,9 +52,8 @@ case class Url(value: String) extends AnyVal
 
 trait VolleyActor extends Actor {
   def request[T : ClassTag](url: String): Future[T] = {
-    val f = RequestFuture.newFuture[T]()
-    val r = new GsonRequest[T](url = url)(ErrListener(e => sender ! Status.Failure(e)) )
-    f.setRequest(r)
+    val s = sender()
+    val r = new GsonRequest[T](url = url)(ErrListener(e => s ! Status.Failure(e)) )
     App.requestQueue.add(r)
     r.future
   }
