@@ -17,7 +17,7 @@ import scala.reflect.ClassTag
 
 class ActorActivity extends ActivityExtras {
   implicit val timeout: Timeout = 10.seconds
-  lazy val actor = App.system.actorOf(Props.apply(classOf[PongActor]))
+  lazy val actor = App.system.actorOf(Props.apply[PongActor])
   lazy val pingButton = this.fid(R.id.button1)
   lazy val reqButton = this.fid(R.id.button2)
   private var pongCount = 0
@@ -39,7 +39,7 @@ class ActorActivity extends ActivityExtras {
   }
 }
 
-class PongActor(name: String) extends Actor with VolleyActor {
+class PongActor extends Actor with VolleyActor {
   def receive = {
     case "ping" => sender ! "pong"
     case Url(datUrl) =>
