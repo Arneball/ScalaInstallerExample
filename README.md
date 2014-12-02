@@ -1,4 +1,4 @@
-Sample project using scala installer found at https://github.com/Arneball/Android-Scala-Installer
+Sample project using scala installer found at https://github.com/Arneball/Android-Scala-Installer and https://github.com/saturday06/gradle-android-scala-plugin
 
 #### Compile without \<use-library\>
 #### Runs proguard to treeshake the release
