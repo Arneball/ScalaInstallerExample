@@ -1,5 +1,7 @@
 package com.example.android2111.app
-import akka.actor.{Actor, Props, Status}
+
+import akka.actor.FSM.Event
+import akka.actor.{FSM, Actor, Props, Status}
 import akka.pattern._
 import akka.util.Timeout
 import android.os.Bundle
@@ -20,19 +22,26 @@ class ActorActivity extends ActivityExtras {
   lazy val actor = App.system.actorOf(Props.apply[PongActor])
   lazy val pingButton = this.fid(R.id.button1)
   lazy val reqButton = this.fid(R.id.button2)
+  lazy val pongCountView = this.gtTxt(R.id.pong_counter)
   private var pongCount = 0
   override def onCreate(b: Bundle) = {
     super.onCreate(b)
     setContentView(R.layout.activity_actor)
     reqButton.setCl {
-      (actor ? Url("http://json-time.appspot.com/time.json")).foreach{
+      (actor ? Url("http://json-time.appspot.com/time.json")).recover {
+        case e: Exception => ui {
+          toast(s"Got exception $e")
+        }
+      }.collect{
         case ct: CurrentTime => ui{ toast(s"The current time is $ct") }
       }
     }
     pingButton.setCl {
       (actor ? "ping").foreach {
         case "pong" => ui {
-          toast("got a pong")
+          pongCount += 1
+          pongCountView.setText(s"Pong count: $pongCount")
+          toast(s"got a pong")
         }
       }
     }

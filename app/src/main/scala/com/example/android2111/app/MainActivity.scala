@@ -14,6 +14,9 @@ class MainActivity extends Activity with ActivityExtras {
     this.fid(R.id.button_actor_activity).setCl{
       startActivity[ActorActivity]
     }
+    this.fid(R.id.button_fsm_activity).setCl {
+      startActivity[FsmActorActivity]
+    }
   }
 }
 
