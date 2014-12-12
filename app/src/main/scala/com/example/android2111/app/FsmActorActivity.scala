@@ -17,10 +17,14 @@ class FsmActorActivity extends Activity with ActivityExtras with FsmActivity {
   lazy val door = findViewById(R.id.door).asInstanceOf[ImageView]
   lazy val List(openButton, closeButton, stateButton) = List(R.id.open, R.id.close, R.id.state).map{ this.gtTxt }
 
+  private lazy val List(openDoor, closedDoor) = List(R.drawable.door_open, R.drawable.door_closed).map{
+    getDrawable
+  }
+
   private def handleActorResponse(a: Any): Unit = a match {
     case newState: State => newState match {
-      case Open => ui { door.setImageResource(R.drawable.door_open) }
-      case Closed => ui { door.setImageResource(R.drawable.door_closed) }
+      case Open => ui { door.setImageDrawable(openDoor) }
+      case Closed => ui { door.setImageDrawable(closedDoor) }
     }
     case Already(str) => ui { toast(s"Door is already $str, why would you do that")}
     case (state: DoorState, openCount: Int) => ui{
