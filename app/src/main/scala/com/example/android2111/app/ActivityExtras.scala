@@ -25,8 +25,6 @@ trait ActivityExtras extends Activity {
     def run() = fun
   })
 
-  def toast(either: Either[Resid, Message]) = {
-    either.fold(_.value |> getString, _.value) |> (Toast.makeText(this, _, Toast.LENGTH_LONG).show)
-  }
-
+  def toast(int: Int): Unit = toast(getString(int))
+  def toast(str: String) = Toast.makeText(this, str, Toast.LENGTH_LONG).show()
 }

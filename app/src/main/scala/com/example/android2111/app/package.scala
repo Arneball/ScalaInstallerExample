@@ -36,12 +36,6 @@ package object app {
     implicit class AnyW[T](val t: T) extends AnyVal {
       def |>[U](f: T => U) = f(t)
     }
-
-    implicit class Resid(val value: Int) extends AnyVal
-    implicit class Message(val value: String) extends AnyVal
-
-    implicit def str2Message(value: String): Right[Resid, Message] = Right(value)
-    implicit def int2resid(value: Int): Left[Resid, Message] = Left(value)
   }
 
 }

@@ -17,7 +17,7 @@ class FsmActorActivity extends Activity with ActivityExtras with FsmActivity {
   lazy val door = findViewById(R.id.door).asInstanceOf[ImageView]
   lazy val List(openButton, closeButton, stateButton) = List(R.id.open, R.id.close, R.id.state).map{ this.gtTxt }
 
-  private def handleActorResponse(a: Any): Unit  = a match {
+  private def handleActorResponse(a: Any): Unit = a match {
     case newState: State => newState match {
       case Open => ui { door.setImageResource(R.drawable.door_open) }
       case Closed => ui { door.setImageResource(R.drawable.door_closed) }
@@ -47,7 +47,7 @@ sealed trait DoorState
 case object Open extends DoorState
 case object Closed extends DoorState
 
-case class Already(string: String)
+case class Already(string: DoorState)
 
 class DoorActor extends FSM[DoorState, Int] {
   startWith(Closed, 0)
@@ -63,7 +63,7 @@ class DoorActor extends FSM[DoorState, Int] {
   }
 
   whenUnhandled {
-    case Event(e: DoorState, _) => sender ! Already(e.toString); stay()
+    case Event(e: DoorState, _) => sender ! Already(e); stay()
     case Event("openCount", _) => sender ! stateData; stay()
     case Event("state", _) => sender ! (stateName, stateData); stay()
   }

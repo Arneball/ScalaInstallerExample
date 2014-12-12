@@ -22,6 +22,7 @@
         <activity android:name=".ListActivity" />
         <activity android:name=".ActorActivity" />
         <activity android:name=".FsmActorActivity" />
+        <activity android:name=".PersistenceActivity" />
     </application>
 
 </manifest>
