@@ -4,24 +4,31 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <EditText
+    <com.example.android2111.app.views.FontEditText
         android:id="@+id/username"
         android:hint="Username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <Button
+
+    <com.example.android2111.app.views.FontButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add user"
         android:id="@+id/add"/>
-    <Button
+
+    <com.example.android2111.app.views.FontButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remove user"
         android:id="@+id/rem"/>
 
+    <com.example.android2111.app.views.FontButton
+        android:text="Snapshot"
+        android:id="@+id/snap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-    <TextView
+    <com.example.android2111.app.views.FontTextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

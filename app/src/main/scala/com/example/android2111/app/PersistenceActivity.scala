@@ -1,22 +1,11 @@
 package com.example.android2111.app
 
-import akka.actor.{Actor, ActorRef, Props}
-import akka.persistence._
-import akka.persistence.journal.AsyncWriteJournal
-import akka.persistence.snapshot.SnapshotStore
-import android.content.{SharedPreferences, Context}
-import android.util.Log
-import com.example.android2111.app.model.PersistedEvent
-import com.j256.ormlite.stmt.{QueryBuilder, PreparedDelete, DeleteBuilder, Where}
-import concurrent.ExecutionContext.Implicits._
-import android.os.Bundle
-import com.google.gson.Gson
 import akka.pattern._
-import scala.collection.immutable
-import scala.collection.immutable.Seq
-import scala.concurrent.Future
-import Implicits._
+import akka.persistence._
+import android.os.Bundle
+import com.example.android2111.app.Implicits._
 
+import scala.concurrent.ExecutionContext.Implicits._
 import scala.reflect.ClassTag
 
 class PersistenceActivity extends ActivityExtras with ActorExtras {
@@ -34,6 +23,9 @@ class PersistenceActivity extends ActivityExtras with ActorExtras {
     this.fid(R.id.rem).setCl {
       actor ? CmdRemUser(user) collect callback
     }
+    this.fid(R.id.snap).setCl {
+      actor ! "snapshot"
+    }
     actor ? "state" collect callback
   }
 
@@ -42,7 +34,7 @@ class PersistenceActivity extends ActivityExtras with ActorExtras {
   def actorClass = implicitly[ClassTag[MyActor]]
 }
 
-import collection.JavaConversions._
+import scala.collection.JavaConversions._
 case class MyActorState(users: java.util.Set[String] = new java.util.HashSet) {
   def +(str: String) = copy(users + str)
   def -(str: String) = copy(users - str)
@@ -70,7 +62,11 @@ class MyActor extends PersistentActor {
       persist(EvtUserAdded(u)){ processEvent }
     case CmdRemUser(u) =>
       persist(EvtUserRemoved(u)) { processEvent }
-    case "state" => sender ! state
+    case "state" =>
+      sender ! state
+    case "snapshot" =>
+      saveSnapshot(state)
+      sender ! state
   }
 
   private def processEvent(evt: Evt) = {

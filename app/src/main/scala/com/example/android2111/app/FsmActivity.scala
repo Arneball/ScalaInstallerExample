@@ -13,7 +13,7 @@ trait FsmActivity extends ActorExtras {
 }
 
 trait ActorExtras extends ActivityExtras {
-  implicit def timeout: Timeout = 2 seconds
+  implicit val timeout: Timeout = 2 seconds
   def actorClass: ClassTag[_ <: Actor]
   lazy val actor = App.system.actorOf(Props(actorClass.runtimeClass))
 

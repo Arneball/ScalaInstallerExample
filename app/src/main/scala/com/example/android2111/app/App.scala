@@ -18,7 +18,7 @@ class App extends android.app.Application {
 
 object App {
   var instance: App = _
-  lazy val system = ActorSystem("da_system", cfg)
+  lazy val system = ActorSystem("dasystem", cfg)
   def cfg = {
     val resource: InputStream = instance.getResources.openRawResource(R.raw.reference)
     try {

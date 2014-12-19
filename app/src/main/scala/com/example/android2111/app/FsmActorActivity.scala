@@ -12,13 +12,13 @@ import concurrent.ExecutionContext.Implicits._
 
 class FsmActorActivity extends Activity with ActivityExtras with FsmActivity {
   type State = DoorState
-  type Data = Int
+  type Data = DoorCounter
   def actorClass = implicitly[ClassTag[DoorActor]]
-  lazy val door = findViewById(R.id.door).asInstanceOf[ImageView]
-  lazy val List(openButton, closeButton, stateButton) = List(R.id.open, R.id.close, R.id.state).map{ this.gtTxt }
+  private lazy val door = this.gtImg(R.id.door)
+  private lazy val List(openButton, closeButton, stateButton) = List(R.id.open, R.id.close, R.id.state).map{ this.gtTxt }
 
   private lazy val List(openDoor, closedDoor) = List(R.drawable.door_open, R.drawable.door_closed).map{
-    getDrawable
+    getResources.getDrawable
   }
 
   private def handleActorResponse(a: Any): Unit = a match {
@@ -38,7 +38,7 @@ class FsmActorActivity extends Activity with ActivityExtras with FsmActivity {
   override def onCreate(b: Bundle) = {
     super.onCreate(b)
     setContentView(R.layout.activity_door)
-    List(openButton -> Open, closeButton -> Closed, stateButton -> "state").foreach{
+    List(openButton -> Open, closeButton -> Closed, stateButton -> State).foreach{
       case (button, message) => button.setCl {
         actor ? message foreach handleActorResponse
       }
@@ -50,11 +50,16 @@ class FsmActorActivity extends Activity with ActivityExtras with FsmActivity {
 sealed trait DoorState
 case object Open extends DoorState
 case object Closed extends DoorState
+case object State
 
-case class Already(string: DoorState)
+case class Already(string: DoorState) extends AnyVal
 
-class DoorActor extends FSM[DoorState, Int] {
-  startWith(Closed, 0)
+case class DoorCounter(openCount: Int) extends AnyVal {
+  def +(i: Int) = copy(openCount + i)
+}
+
+class DoorActor extends FSM[DoorState, DoorCounter] {
+  startWith(Closed, DoorCounter(0))
   when(Closed) {
     case Event(Open, sd) =>
       sender ! Open
@@ -69,6 +74,6 @@ class DoorActor extends FSM[DoorState, Int] {
   whenUnhandled {
     case Event(e: DoorState, _) => sender ! Already(e); stay()
     case Event("openCount", _) => sender ! stateData; stay()
-    case Event("state", _) => sender ! (stateName, stateData); stay()
+    case Event(State, _) => sender ! (stateName, stateData); stay()
   }
 }

@@ -4,19 +4,19 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <EditText
+    <com.example.android2111.app.views.FontEditText
         android:hint="Name"
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
+    <com.example.android2111.app.views.FontEditText
         android:hint="Age"
         android:inputType="number"
         android:id="@+id/age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <Button
+    <com.example.android2111.app.views.FontButton
         android:text="Add user"
         android:id="@+id/add_user"
         android:layout_width="wrap_content"

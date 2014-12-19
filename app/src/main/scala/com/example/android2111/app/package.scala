@@ -39,3 +39,11 @@ package object app {
   }
 
 }
+
+sealed abstract class Font private(val fontName: String)
+object Font {
+  case object Awesome extends Font("awesome.ttf")
+  case object Candy   extends Font("candy.otf")
+  case object Inconsolata extends Font("Inconsolata.otf")
+}
+

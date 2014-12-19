@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WithFont">
+        <attr name="font">
+            <enum name="awesome" value="0" />
+            <enum name="candy" value="1" />
+            <enum name="inconsolata" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

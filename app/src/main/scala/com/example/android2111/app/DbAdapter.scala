@@ -20,21 +20,10 @@ object DbAdapter extends OrmLiteSqliteOpenHelper(App.instance, "db", null, 1) {
     }
   }
 
-  private val daoCache = collection.mutable.Map[ClassTag[_], Dao[_, _]]()
-
-  def getDao[T <: WithId : ClassTag]: Dao[T, Int] = {
-    val tag  = implicitly[ClassTag[T]]
-    def mkDao = getDao(tag.runtimeClass)
-    daoCache.getOrElseUpdate(tag, mkDao).asInstanceOf[Dao[T, Int]]
-  }
-
-  override def close(): Unit = {
-    super.close()
-    daoCache.clear()
-  }
+  def getDao[T <: WithId : ClassTag]: Dao[T, Int] = getDao(implicitly[ClassTag[T]].runtimeClass)
 
   implicit def dao2cursor[T <: WithId : ClassTag] = {
-    getDao[User].iterator.getRawResults.asInstanceOf[AndroidDatabaseResults].getRawCursor
+    getDao[T].iterator.getRawResults.asInstanceOf[AndroidDatabaseResults].getRawCursor
   }
 
   override def onUpgrade(database: Db, connectionSource: ConnectionSource, oldVersion: Int, newVersion: Int) = ???

@@ -24,7 +24,7 @@ object PersistedEvent {
 
 
 @DatabaseTable class Snapshot(_persistenceId: String, _seqNr: Long, _timestamp: Long, _payload: Any) extends WithId with AkkaModelHelper {
-  @DatabaseField val persistenced = _persistenceId
+  @DatabaseField val persistenceId = _persistenceId
   @DatabaseField val seqNr = _seqNr
   @DatabaseField val timestamp = _timestamp
   @DatabaseField val payload = PersistedEvent.gson.toJson(_payload)
