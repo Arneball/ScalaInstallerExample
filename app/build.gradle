@@ -92,4 +92,5 @@ dependencies {
 
     releaseCompile "org.scala-lang:scala-library:2.11.4"
     debugProvided "org.scala-lang:scala-library:2.11.4"
+    provided project(":macros")
 }

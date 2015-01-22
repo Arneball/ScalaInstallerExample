@@ -3,6 +3,7 @@ package com.example.android2111.app
 import android.app.Activity
 import android.os.Bundle
 import Implicits._
+import com.androidsx.library.MyMacros
 
 class MainActivity extends Activity with ActivityExtras {
   override def onCreate(b: Bundle) = {
@@ -20,6 +21,9 @@ class MainActivity extends Activity with ActivityExtras {
     this.fid(R.id.button_persist_activity).setCl {
       startActivity[PersistenceActivity]
     }
+    val slasken = 1
+    val turken = "shit"
+    MyMacros.debug(slasken, turken)
   }
 }
 

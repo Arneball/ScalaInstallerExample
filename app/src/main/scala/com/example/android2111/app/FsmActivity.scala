@@ -5,6 +5,8 @@ import akka.util.Timeout
 import android.app.Activity
 import concurrent.duration._
 import scala.reflect.ClassTag
+import akka.pattern._
+import concurrent.ExecutionContext.Implicits.global
 
 trait FsmActivity extends ActorExtras {
   type State

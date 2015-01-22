@@ -13,6 +13,8 @@ import concurrent.ExecutionContext.Implicits._
 class FsmActorActivity extends Activity with ActivityExtras with FsmActivity {
   type State = DoorState
   type Data = DoorCounter
+  import com.androidsx.library.MyMacros._
+  val aMacroString = trusta
   def actorClass = implicitly[ClassTag[DoorActor]]
   private lazy val door = this.gtImg(R.id.door)
   private lazy val List(openButton, closeButton, stateButton) = List(R.id.open, R.id.close, R.id.state).map{ this.gtTxt }
@@ -76,4 +78,5 @@ class DoorActor extends FSM[DoorState, DoorCounter] {
     case Event("openCount", _) => sender ! stateData; stay()
     case Event(State, _) => sender ! (stateName, stateData); stay()
   }
+
 }

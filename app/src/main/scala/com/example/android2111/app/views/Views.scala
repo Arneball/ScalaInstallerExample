@@ -15,6 +15,7 @@ trait WithFont extends TextView {
       case 1 => setTypeface(WithFont(context, Font.Candy))
       case 2 => setTypeface(WithFont(context, Font.Inconsolata))
     }
+    a.recycle()
   }
 }
 
